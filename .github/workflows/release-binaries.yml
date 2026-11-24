@@ -29,6 +29,11 @@ on:
       - "cpmfile.json"
       - "*.profdata"
       - ".github/workflows/release-binaries.yml"
+      # Last, so a positive pattern above cannot include these again. Tag pushes
+      # do not evaluate path filters, and workflow_dispatch is unfiltered.
+      - "!**/*.md"
+      - "!**/LICENSE"
+      - "!**/LICENSE.txt"
 
 permissions:
   contents: read
