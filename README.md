@@ -7,6 +7,8 @@
 
 # Lichii (tasarren fork)
 
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-Support-FF5E5B?logo=ko-fi&logoColor=white)](https://ko-fi.com/tasarren)
+
 A fork of [zortos293/Lichii](https://github.com/zortos293/Lichii), a Nintendo Switch and Switch 2
 emulator. This fork works on speed, memory use and stutter, tested mostly with The Legend of Zelda:
 Ocarina of Time. It follows Lichii's `nx2` branch; our changes are on the `next` branch.
@@ -169,3 +171,7 @@ This fork builds on Lichii and the projects it comes from: Eglantine, Eden, yuzu
 their contributors, including Eglantine's original developer Camille LaVey. Original copyright
 notices and third-party licenses are kept. See [LICENSE.txt](LICENSE.txt) and the source files for
 the license terms. Not affiliated with Nintendo.
+
+## Support
+
+This fork is maintained by [@tasarren](https://github.com/tasarren). Tip on [Ko-fi](https://ko-fi.com/tasarren) or sponsor on [GitHub](https://github.com/sponsors/tasarren).
