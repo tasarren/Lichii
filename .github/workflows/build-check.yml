@@ -1,10 +1,24 @@
 name: build-check
 
 on:
+  # Documentation does not affect the build. workflow_dispatch stays unfiltered.
+  # next has no required status checks, so a skipped run does not leave a PR pending.
   pull_request:
     branches: [next]
+    paths-ignore:
+      - "**/*.md"
+      - "docs/**"
+      - ".github/FUNDING.yml"
+      - "**/LICENSE"
+      - "**/LICENSE.txt"
   push:
     branches: [next]
+    paths-ignore:
+      - "**/*.md"
+      - "docs/**"
+      - ".github/FUNDING.yml"
+      - "**/LICENSE"
+      - "**/LICENSE.txt"
   workflow_dispatch:
 
 permissions:
@@ -16,34 +30,8 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
-  changes:
-    name: Detect source changes
-    runs-on: ubuntu-24.04
-    timeout-minutes: 5
-    permissions:
-      pull-requests: read
-    outputs:
-      build: ${{ steps.files.outputs.build }}
-    steps:
-      - name: Skip builds for documentation-only pull requests
-        id: files
-        env:
-          GH_TOKEN: ${{ github.token }}
-          PR: ${{ github.event.pull_request.number }}
-        run: |
-          build=true
-          if [ -n "$PR" ]; then
-            files=$(gh api --paginate "repos/$GITHUB_REPOSITORY/pulls/$PR/files" --jq '.[].filename')
-            if ! printf '%s\n' "$files" | grep -qvE '^(docs/.*|.*\.md)$'; then
-              build=false
-            fi
-          fi
-          echo "build=$build" >> "$GITHUB_OUTPUT"
-
   linux-gcc:
     name: Linux GCC 13 production build and tests
-    needs: changes
-    if: needs.changes.outputs.build == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 90
     env:
@@ -165,8 +153,6 @@ jobs:
 
   windows-clang-cl:
     name: Windows clang-cl production build and tests
-    needs: changes
-    if: needs.changes.outputs.build == 'true'
     runs-on: windows-2022
     timeout-minutes: 120
     # ccache rather than sccache: sccache has no direct mode for clang-cl, so every hit still ran the
